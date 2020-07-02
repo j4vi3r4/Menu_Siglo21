@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             xmlns:infra="clr-namespace:Menu_Siglo21.Infraestructure"
+             mc:Ignorable="d"
+             x:Class="Menu_Siglo21.App">
+    <Application.Resources>
+        <!--LOCATOR-->
+        <!--ejemplo para entender: locator quien eres? soy un objeto que esta dentro del instancelocator, instancelocator esta dentro de infra, infra es una clase que
+            esta dentro de infraestructure, infraestructure encuentra el objeto main, esto se hace para poder conectar las viewmodels con las views -->
+        <infra:InstanceLocator x:Key="Locator"/>
+        <!--Parametros-->
+        <x:String x:Key="UrlAPI">http://51.143.4.69:4567</x:String>
+        <x:String x:Key="Prefix">/app</x:String>
+        <!--Fuentes
+            <OnPlatform x:Key="BebasNeue.ttf" x:TypeArguments="x:String">
+                <On Platform="Android" Value="bebasNeue.ttf#bebasNeue"/>
+            </OnPlatform>-->
+    </Application.Resources>
+</Application>
