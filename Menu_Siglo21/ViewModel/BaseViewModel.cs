@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Collections.Specialized;
     using System.ComponentModel;
     using System.Runtime.CompilerServices;
     using System.Text;
@@ -24,14 +25,10 @@
             this.OnPropertyChanged(propertyName);
         }
 
-        //no sé si ocupe este
+   /*     //no sé si ocupe este
         protected virtual void OnPropertyChangeds([CallerMemberName] string propertyName = null)
         {
-            PropertyChangedEventHandler handler = PropertyChanged;
-            if (handler != null)
-            {
-                handler(this, new PropertyChangedEventArgs(propertyName));
-            }
-        }
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
+        }*/
     }
 }

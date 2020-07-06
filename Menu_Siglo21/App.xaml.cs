@@ -1,6 +1,9 @@
-﻿using System;
+﻿using Menu_Siglo21.Views;
+using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+
+
 
 namespace Menu_Siglo21
 {
@@ -10,7 +13,7 @@ namespace Menu_Siglo21
         {
             InitializeComponent();
 
-            MainPage = new MainPage();
+            MainPage = new MenuPedidos();
         }
 
         protected override void OnStart()

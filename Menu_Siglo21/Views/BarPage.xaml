@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+             mc:Ignorable="d"
+             x:Class="Menu_Siglo21.Views.BarPage"
+             BindingContext="{Binding Main, Source={d:StaticResource Locator}}"
+             Title="Bar">
+    <ContentPage.Content>
+        <StackLayout
+            BindingContext="{Binding Bebidas}">
+            <Image Source="LOGORESTAURATSINFONDO.png" Grid.ColumnSpan="3" HeightRequest="80" BackgroundColor="White"/>
+            <ListView ItemsSource="{Binding Bebidas}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="*"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="2*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label FontAttributes="Bold" Grid.Row="0" Grid.Column="0" Text="{Binding Nombre}" HorizontalOptions="Start">
+                                </Label>
+                                <Label FontAttributes="Bold" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" Text="{Binding Precio, StringFormat='{0}'}">
+                                </Label>
+                                <Label FontAttributes="Bold" Grid.Row="1" Grid.Column="0" Text="{Binding Disponibilidad}" HorizontalOptions="Start">
+                                </Label>
+                                <Label FontAttributes="Bold" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" Text="{Binding Origen}">
+                                </Label>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

@@ -3,15 +3,17 @@
     using System;
     using System.Collections.Generic;
     using System.Text;
+    using System.Threading;
 
     public class MainViewModel
-    {
-        public NumeroViewModel NumeroMesa { get; set; }
-
+    {        
+        public PlatosViewModel Platos { get; set; }
+        public BarViewModel Bebidas { get; set; }
 
         public MainViewModel()
         {
-            this.NumeroMesa = new NumeroViewModel();
+            this.Platos = new PlatosViewModel();
+            this.Bebidas = new BarViewModel();
         }
     }
 }

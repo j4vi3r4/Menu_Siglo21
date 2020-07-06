@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace Menu_Siglo21.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class NumeroMesaPage : ContentPage
+    public partial class PlatosPage : ContentPage
     {
-        public NumeroMesaPage()
+        public PlatosPage()
         {
             InitializeComponent();
         }
