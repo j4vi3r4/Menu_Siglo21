@@ -5,38 +5,65 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="Menu_Siglo21.Views.BarPage"
-             BindingContext="{Binding Main, Source={d:StaticResource Locator}}"
-             Title="Bar">
+             Title="Bebidas">
     <ContentPage.Content>
-        <StackLayout
-            BindingContext="{Binding Bebidas}">
-            <Image Source="LOGORESTAURATSINFONDO.png" Grid.ColumnSpan="3" HeightRequest="80" BackgroundColor="White"/>
-            <ListView ItemsSource="{Binding Bebidas}">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <Grid>
-                                <Grid.RowDefinitions>
-                                    <RowDefinition Height="*"/>
-                                    <RowDefinition Height="*"/>
-                                </Grid.RowDefinitions>
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="2*"/>
-                                    <ColumnDefinition Width="*"/>
-                                </Grid.ColumnDefinitions>
-                                <Label FontAttributes="Bold" Grid.Row="0" Grid.Column="0" Text="{Binding Nombre}" HorizontalOptions="Start">
-                                </Label>
-                                <Label FontAttributes="Bold" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" Text="{Binding Precio, StringFormat='{0}'}">
-                                </Label>
-                                <Label FontAttributes="Bold" Grid.Row="1" Grid.Column="0" Text="{Binding Disponibilidad}" HorizontalOptions="Start">
-                                </Label>
-                                <Label FontAttributes="Bold" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" Text="{Binding Origen}">
-                                </Label>
-                            </Grid>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
+        <StackLayout BindingContext="{Binding Bebidas}">
+            <Image Source="LOGORESTAURATSINFONDO.png" HeightRequest="75" BackgroundColor="White"/>
+            <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                    Command="{Binding RefreshCommand}" >
+                <CarouselView  ItemsSource="{Binding Bebidas}" IndicatorView="indicatorView" BackgroundColor="WhiteSmoke">
+                    <CarouselView.ItemTemplate>
+                        <DataTemplate>
+                            <StackLayout Margin="10" BackgroundColor="WhiteSmoke">
+                                <Frame BorderColor="ForestGreen" CornerRadius="10" HasShadow="True" Margin="20" HeightRequest="480" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
+                                    <StackLayout Margin="5" BackgroundColor="FloralWhite">
+                                        <!--acá se debe bindiera a la imagen url que seran enviada aún no esta en la bd -->
+                                        <Image Source="{Binding ImageUrl}" 
+                                        Aspect="AspectFill"
+                                          HeightRequest="170"
+                                         WidthRequest="170"
+                                         HorizontalOptions="Center" Margin="30">
+                                        </Image>
+                                        <Label Text="{Binding Nombre}" FontAttributes="Bold"
+                                          FontSize="Large"
+                                          HorizontalOptions="Center"
+                                          VerticalOptions="Center" >
+                                        </Label>
+                                        <Label Text="Precio" FontAttributes="Bold" HorizontalOptions="Start"/>
+                                        <Label  FontAttributes="Bold" HorizontalOptions="Center" Text="{Binding Precio, StringFormat='$ {0}'}">
+                                        </Label>
+                                        <Label FontAttributes="Bold" Text="{Binding Disponibilidad}" HorizontalOptions="Center" IsVisible="false">
+                                        </Label>
+                                        <Label FontAttributes="Bold"  HorizontalOptions="Center" Text="{Binding Origen}" IsVisible="false">
+                                        </Label>
+                                        <Label Text="{Binding Descripcion}"
+                                                FontAttributes="Italic"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center"
+                                                MaxLines="10"
+                                                LineBreakMode="TailTruncation">
+                                        </Label>
+                                        <Label Text="Llevas: " HorizontalOptions="Center" FontAttributes="Bold"></Label>
+                                        <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label Text="{Binding Cantidad, StringFormat='{0} platos'}" />
+                                            <Stepper Value="{Binding Cantidad}" Minimum="0" Maximum="25" HorizontalOptions="Center"/>
+                                            <!--<Stepper Minimum="0" Maximum="20" Increment="1" HorizontalOptions="Center" BackgroundColor="FloralWhite"  />-->
+                                        </StackLayout>
+                                        <!--Bindear el maximo del stock-->
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                        </DataTemplate>
+                    </CarouselView.ItemTemplate>
+                </CarouselView>
+            </RefreshView>
+            <IndicatorView x:Name="indicatorView"
+                       IndicatorsShape="Square"
+                       IndicatorColor="LightGray"
+                       SelectedIndicatorColor="DarkGray"
+                       HorizontalOptions="Center"
+                       Margin="0,0,0,40" />
         </StackLayout>
     </ContentPage.Content>
+
 </ContentPage>

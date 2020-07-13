@@ -2,44 +2,74 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             mc:Ignorable="d"             
-             x:Class="Menu_Siglo21.Views.PlatosPage"
-             BindingContext="{Binding Main, Source={d:StaticResource Locator}}"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"              
+             mc:Ignorable="d"                          
+             x:Class="Menu_Siglo21.Views.PlatosPage"  
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
              Title="Platos">
     <ContentPage.Content>
-        <StackLayout
-            BindingContext="{Binding Platos}">
-            
-            
-            <CarouselView ItemsSource="{Binding Platos}">
+        <StackLayout BindingContext="{Binding Platos}"><!--Este es el atributo que esta dentro de main(nombre de la viewmodel)-->
+            <Image Source="LOGORESTAURATSINFONDO.png" HeightRequest="70" BackgroundColor="White"/>
+            <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                    Command="{Binding RefreshCommand}" >
+                <CarouselView  ItemsSource="{Binding Platos}"  IndicatorView="indicatorView" BackgroundColor="WhiteSmoke"><!--este binding tiene que ser un atributo dentro de products que sirve para pintar la lista de objs-->
                     <CarouselView.ItemTemplate>
                         <DataTemplate>
-                        <StackLayout>
-                            <Frame>
-                                    <Grid BackgroundColor="Red" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="1">
-                                        <Grid.RowDefinitions>
-                                            <RowDefinition Height="*"/>
-                                            <RowDefinition Height="*"/>
-                                        </Grid.RowDefinitions>
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="2*"/>
-                                            <ColumnDefinition Width="*"/>
-                                        </Grid.ColumnDefinitions>
-                                        <Label FontAttributes="Bold" Grid.Row="0" Grid.Column="0" Text="{Binding Nombre}" HorizontalOptions="Start">
+                            <StackLayout Margin="10" BackgroundColor="WhiteSmoke">
+                                <Label FontAttributes="Bold" Text="{Binding Disponibilidad, Mode=TwoWay}" HorizontalOptions="Center" IsVisible="false">
+                                </Label>
+                                <Label FontAttributes="Bold"  HorizontalOptions="Center" Text="{Binding Origen, Mode=TwoWay}"  IsVisible="false">
+                                </Label>
+                                <!--<Label FontAttributes="Bold"  HorizontalOptions="Center" Text="{Binding Id_Origen, Mode=TwoWay}" IsVisible="true"></Label>-->
+                                <Frame BorderColor="ForestGreen" CornerRadius="10" HasShadow="True" Margin="20" HeightRequest="480" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
+                                    <StackLayout Margin="5" BackgroundColor="FloralWhite">                                        
+                                        <Image Source="{Binding ImageUrl}" 
+                                        Aspect="AspectFill"
+                                         HeightRequest="170"
+                                         WidthRequest="170"
+                                         HorizontalOptions="Center" Margin="30">
+                                        </Image>
+                                        <Label Text="{Binding Nombre}" FontFamily="bebasNeue" FontAttributes="Bold"
+                                          FontSize="Large"
+                                          HorizontalOptions="Center"
+                                          VerticalOptions="Center" >
                                         </Label>
-                                        <Label FontAttributes="Bold" Grid.Row="0" Grid.Column="1" HorizontalOptions="End" Text="{Binding Precio, StringFormat='{0}'}">
+                                        <Label Text="Precio" FontAttributes="Bold" HorizontalOptions="Start"/>
+                                        <Label  FontAttributes="Bold" HorizontalOptions="Center" FontFamily="bebasNeue" Text="{Binding Precio, StringFormat='$ {0}'}">
                                         </Label>
-                                        <Label FontAttributes="Bold" Grid.Row="1" Grid.Column="0" Text="{Binding Disponibilidad}" HorizontalOptions="Start">
+                                        <!--<Label FontAttributes="Bold" Text="{Binding Disponibilidad}" HorizontalOptions="Center" IsVisible="false">
                                         </Label>
-                                        <Label FontAttributes="Bold" Grid.Row="1" Grid.Column="1" HorizontalOptions="End" Text="{Binding Origen}">
-                                        </Label>
-                                    </Grid>
-                            </Frame>
-                        </StackLayout>
-                    </DataTemplate>
+                                        <Label FontAttributes="Bold"  HorizontalOptions="Center" Text="{Binding Origen}" IsVisible="false">
+                                        </Label>-->
+                                        <Label Text="{Binding Descripcion}"
+                                                FontAttributes="Italic"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center"
+                                                MaxLines="10"
+                                                LineBreakMode="TailTruncation">
+                                        </Label>                                        
+                                        <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                                            <Label Text="Llevas: " HorizontalOptions="Center" FontAttributes="Bold"></Label>
+                                            <Entry x:Name="txtCantidadCount" Text="{Binding Source={x:Reference StepperCounterCant}, Path=Value}" HorizontalTextAlignment="Center"/>
+                                          <!--  <Label Text="{Binding Cantidad, StringFormat='{0} platos'}" />-->                                            
+                                            <!--<Stepper Minimum="0" Maximum="20" Increment="1" HorizontalOptions="Center" BackgroundColor="FloralWhite"  />-->                                        </StackLayout>
+                                        <Stepper x:Name="StepperCounterCant" Minimum="0" Maximum="25" Increment="1" HorizontalOptions="Center"
+                                                Value="0" ValueChanged="StepperCounterCant_ValueChanged"/>
+                                        <!--<Stepper Value="{Binding Cantidad}" Minimum="0" Maximum="25" HorizontalOptions="Center"/>-->
+                                        <!--Bindear el maximo del stock-->
+                                    </StackLayout>
+                                </Frame>
+                            </StackLayout>
+                        </DataTemplate>
                     </CarouselView.ItemTemplate>
-                </CarouselView>            
+                </CarouselView>
+            </RefreshView>
+            <IndicatorView x:Name="indicatorView"
+                       IndicatorsShape="Square"
+                       IndicatorColor="LightGray"
+                       SelectedIndicatorColor="DarkGray"
+                       HorizontalOptions="Center"
+                       Margin="0,0,0,40" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

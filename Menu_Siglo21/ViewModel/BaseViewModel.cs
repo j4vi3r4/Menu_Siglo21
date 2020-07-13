@@ -9,6 +9,7 @@
     public class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
+      
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {
@@ -24,11 +25,20 @@
             backingField = value;
             this.OnPropertyChanged(propertyName);
         }
+        bool SetProperty<T>(ref T storage, T value, [CallerMemberName] string propertyName = null)
+        {
+            if (Object.Equals(storage, value))
+                return false;
 
-   /*     //no sé si ocupe este
-        protected virtual void OnPropertyChangeds([CallerMemberName] string propertyName = null)
+            storage = value;
+            OnPropertyChanged(propertyName);
+            return true;
+        }
+        
+        //no sé si ocupe este
+        protected void OnPropertyChangeds([CallerMemberName] string propertyName = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
-        }*/
+        }
     }
 }

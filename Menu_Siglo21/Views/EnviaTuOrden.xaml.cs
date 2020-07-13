@@ -10,13 +10,11 @@ using Xamarin.Forms.Xaml;
 namespace Menu_Siglo21.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class MenuPedidos : TabbedPage
+    public partial class EnviaTuOrden : ContentPage
     {
-        public MenuPedidos()
+        public EnviaTuOrden()
         {
             InitializeComponent();
-                        
-
-        }              
+        }
     }
 }

@@ -8,53 +8,55 @@
     using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.Linq;
+    using System.Runtime.CompilerServices;
     using System.Text;
+    using System.Threading.Tasks;
     using System.Windows.Input;
     using Xamarin.Forms;
-    using Xamarin.Forms.Internals;
 
-    public class PlatosViewModel : BaseViewModel
+    public class RecetaViewModel : BaseViewModel
     {
-        #region Atributos
-        bool isRefreshing; // para refrescar la lista
+     /*   bool isRefreshing;
         private ApiService apiService;
-        private ObservableCollection<Receta> platos;
-  //      private ObservableCollection<Receta> origenes;
-        #endregion
 
+        private ObservableCollection<Receta> recetas;
+        private ObservableCollection<Origen> origenes;
 
-        #region Propiedades
-        public ObservableCollection<Receta> Platos //PROPIEDAD ItemsSource="{Binding Platos}" DEL XAML
+        public ObservableCollection<Receta> Recetas
         {
-            get { return this.platos; }
-            set { this.SetValue(ref this.platos, value); }
+            get { return this.recetas; } // devuelve el atributo privado de mesas 
+            set { this.SetValue(ref this.recetas, value); } // se encarga de asignar y refrescar la viewmodel
         }
-               
+        public ObservableCollection<Origen> Origenes
+        {
+            get { return this.origenes ; }
+            set { this.SetValue(ref this.origenes, value); }
+        }
+
         public bool IsRefreshing
         {
             get { return this.isRefreshing; }
-            set { this.SetValue(ref this.isRefreshing, value); }
+            set
+            {
+                this.SetValue(ref this.isRefreshing, value);
+            }
         }
-        public PlatosViewModel()
+        public RecetaViewModel()
         {
             this.apiService = new ApiService();
-            this.LoadPlatos();
+            //this.GetOrigen();
+            this.LoadRecetas();
         }
-        #endregion
 
-
-        #region Commands
         public ICommand RefreshCommand
         {
             get
             {
-                return new RelayCommand(LoadPlatos);
+                return new RelayCommand(LoadRecetas);
             }
         }
-        #endregion
 
-        #region Methods
-        private async void LoadPlatos()
+        private async void LoadRecetas()
         {
             this.IsRefreshing = true;
             var connection = await this.apiService.CheckConnection(); // validación de conexión a internet 
@@ -68,23 +70,20 @@
             var prefix = Application.Current.Resources["Prefix"].ToString();
             var response = await this.apiService.GetList<Receta>(url, prefix, "/listarrecetas");
             if (!response.IsSuccess)
-            {
+            {                
                 await Application.Current.MainPage.DisplayAlert("Error", response.Message, "Aceptar");
                 return;
             }
-            var listPlatos = (List<Receta>)response.Result;
-            Platos = new ObservableCollection<Receta>();
-            for (int i = 0; i < listPlatos.Count; i++)
+            if (true)
             {
-                if (listPlatos[i].Origen.Id_Origen == 1 && listPlatos[i].Disponibilidad == "D")
-                {                                       
-                    Platos.Add(listPlatos[i]); 
-                  ///  Debug.WriteLine("------>" + listPlatos[i].Nombre);                    
-                    this.IsRefreshing = false ;                    
-                }                    
-            }
-        }
-    }
-        #endregion
-}
 
+            }
+            var list = (List<Receta>)response.Result;
+            // list.Where(i => i.Origen.Id_Origen == 2);
+            this.Recetas = new ObservableCollection<Receta>(list);
+            Debug.WriteLine("---" + recetas);
+            this.IsRefreshing = false;
+        }*/
+
+    }
+}

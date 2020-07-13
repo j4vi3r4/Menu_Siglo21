@@ -72,6 +72,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <AndroidAsset Include="..\Menu_Siglo21\Fonts\bebasNeue.ttf">
+      <Link>Assets\bebasNeue.ttf</Link>
+    </AndroidAsset>
     <None Include="Resources\AboutResources.txt" />
     <None Include="Assets\AboutAssets.txt" />
     <None Include="Properties\AndroidManifest.xml" />
@@ -94,7 +97,9 @@
     <AndroidResource Include="Resources\mipmap-xxxhdpi\icon.png" />
     <AndroidResource Include="Resources\mipmap-xxxhdpi\launcher_foreground.png" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <AndroidResource Include="Resources\drawable\empanada.jpg" />
+  </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Menu_Siglo21\Menu_Siglo21.csproj">
       <Project>{6536918B-9BDA-40B9-8D09-D42466D9F318}</Project>

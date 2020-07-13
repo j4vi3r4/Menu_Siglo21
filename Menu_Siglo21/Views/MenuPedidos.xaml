@@ -3,12 +3,35 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-             xmlns:local="clr-namespace:Menu_Siglo21.Views"
+             xmlns:local="clr-namespace:Menu_Siglo21.Views"             
              mc:Ignorable="d"
-             x:Class="Menu_Siglo21.Views.MenuPedidos"
-             BindingContext="{Binding Main, Source={StaticResource Locator}}">
-  <!--Pages can be added as references or inline-->
-    <local:PlatosPage></local:PlatosPage>
-    <local:BarPage></local:BarPage>
-    <local:PagarCuentaPage></local:PagarCuentaPage>
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             x:Class="Menu_Siglo21.Views.MenuPedidos">    
+  <!--Referencias de las Paginas-->
+    
+    <TabbedPage.Children>
+    <local:PlatosPage>       
+        </local:PlatosPage>
+    <local:BarPage>
+           <!--
+            <ContentPage.Content>
+                <StackLayout  BindingContext="{Binding Recetas}">
+                    <ListView ItemsSource="{Binding Recetas}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <Grid>
+                                        <Label FontAttributes="Bold"  HorizontalOptions="Center" Text="{Binding Origen}" IsVisible="false"></Label>
+                                        <Label FontAttributes="Bold" Text="{Binding Disponibilidad}" HorizontalOptions="Center" IsVisible="false"></Label>
+                                    </Grid>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
+                </StackLayout>
+            </ContentPage.Content>-->
+        </local:BarPage>        
+        <!--  <local:PagarCuentaPage></local:PagarCuentaPage>-->
+        <local:EnviaTuOrden></local:EnviaTuOrden>
+    </TabbedPage.Children>   
 </TabbedPage>

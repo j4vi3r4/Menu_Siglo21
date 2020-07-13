@@ -4,16 +4,9 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
-             x:Class="Menu_Siglo21.Views.PagarCuentaPage"
-             BindingContext="{Binding Main, Source={d:StaticResource Locator}}"
+             x:Class="Menu_Siglo21.Views.PagarCuentaPage"   
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
              Title="Paga Tu Cuenta">
-    <ContentPage.Content>
-        <StackLayout>
-            <Image Source="LOGORESTAURATSINFONDO.png" Grid.ColumnSpan="3" HeightRequest="80" BackgroundColor="White"/>
-            <Picker Title="xddddd" />
-            <Stepper Minimum="0" Maximum="10" Increment="1" /> <!--PARA AGREGAR M´´AS DE 1 PLATO-->
-            <Label Text="Medio de Pago" />
-           
-        </StackLayout>
-    </ContentPage.Content>
+    <!--lista del pedido-->
+    
 </ContentPage>
