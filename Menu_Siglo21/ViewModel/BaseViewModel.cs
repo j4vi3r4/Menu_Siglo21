@@ -1,6 +1,7 @@
 ﻿namespace Menu_Siglo21.ViewModel
 {
     using System;
+    using System.Collections;
     using System.Collections.Generic;
     using System.Collections.Specialized;
     using System.ComponentModel;
@@ -9,7 +10,8 @@
     public class BaseViewModel : INotifyPropertyChanged
     {
         public event PropertyChangedEventHandler PropertyChanged;
-      
+        public static ArrayList RecetasArray { get; set; }
+
 
         protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
         {

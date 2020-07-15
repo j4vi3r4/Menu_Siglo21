@@ -9,7 +9,8 @@ namespace Menu_Siglo21.Model
     public class Receta
     {
         [Key]
-        public int IdReceta { get; set; }
+        [Display(Name = "Id_receta")]
+        public int Id_receta { get; set; }
         [Display(Name = "Nombre")]
         public string Nombre { get; set; }
 

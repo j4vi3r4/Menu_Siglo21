@@ -1,11 +1,9 @@
-﻿using Menu_Siglo21.Model;
-using System;
-using System.Collections.Generic;
-using System.Text;
+﻿
+using System.Collections;
 
 namespace Menu_Siglo21.ViewModel
 {
-    public class MainViewModel
+    public class MainViewModel : BaseViewModel
     {      
         public PlatosViewModel Platos { get; set; } // PLATOS binding context de la page 
         public BarViewModel Bebidas { get; set; } //debe ser cambiado a bebidas
@@ -14,6 +12,8 @@ namespace Menu_Siglo21.ViewModel
        
         public MainViewModel()
         {
+            RecetasArray = new ArrayList();
+
             this.EnviarOrden = new EnviaTuOrdenViewModel();
             this.Platos = new PlatosViewModel();
             this.Bebidas= new BarViewModel();         

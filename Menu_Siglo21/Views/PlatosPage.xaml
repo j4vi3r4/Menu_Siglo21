@@ -13,7 +13,7 @@
             <Image Source="LOGORESTAURATSINFONDO.png" HeightRequest="70" BackgroundColor="White"/>
             <RefreshView IsRefreshing="{Binding IsRefreshing}"
                     Command="{Binding RefreshCommand}">
-                <CarouselView  ItemsSource="{Binding Platos}"  IndicatorView="indicatorView" BackgroundColor="WhiteSmoke">
+                <CarouselView  ItemsSource="{Binding Platos}"  IndicatorView="indicatorView" BackgroundColor="WhiteSmoke" x:Name="PlatosSeleccion">
                     <!--este binding tiene que ser un atributo dentro de products que sirve para pintar la lista de objs-->
                     <CarouselView.ItemTemplate>
                         <DataTemplate>
@@ -56,14 +56,25 @@
                                             <Label FontAttributes="Bold" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" FontFamily="bebasNeue" Text="{Binding Precio, StringFormat='$ {0}'}" 
                                                    Grid.Row="3"></Label>
                                             <Label Text="Llevas: " HorizontalOptions="StartAndExpand" FontAttributes="Bold" Grid.Row="4"></Label>
-                                            <Entry Text="{Binding  Source={x:Reference Name=StepperCounterCant}, Path=Value}" HorizontalTextAlignment="Center"
-                                                   Grid.Row="4" IsEnabled="False" HorizontalOptions="EndAndExpand" />
-                                            <Stepper x:Name="StepperCounterCant" Minimum="0" Maximum="25" Increment="1" HorizontalOptions="CenterAndExpand" Value="0" Grid.Row="5"/>
+
+                                   
+                                            <Entry BindingContext="{x:Reference StepperCounterCant}" Text="{Binding Value}"  HorizontalTextAlignment="Center"
+                                                Grid.Row="4" IsEnabled="False" HorizontalOptions="EndAndExpand" />
+                                            <Stepper 
+                                                BindingContext="{Binding Source={x:Reference PlatosSeleccion}, Path=BindingContext}" 
+                                                x:Name="StepperCounterCant" Minimum="0" Maximum="25" Increment="1" 
+                                                HorizontalOptions="CenterAndExpand" Grid.Row="5" 
+                                                Value="{Binding TxtCantidadCount}"/>
+                                            <Label x:Name="platoID" Text="{Binding Id_receta}" IsVisible="false" />
+                                            
                                             <Button HorizontalOptions="CenterAndExpand"
                                                 VerticalOptions="CenterAndExpand" Text="Agregar a Tu Pedido"
                                                 TextColor="Black"
                                                 CornerRadius="13" BorderColor="ForestGreen" BorderWidth="2"
-                                                BackgroundColor="White" Command="{Binding AgregarPedidoCommand}" Grid.Row="6"/>
+                                                BackgroundColor="White" 
+                                                Command="{Binding Source={x:Reference PlatosSeleccion}, Path=BindingContext.AddElementCommand}"
+                                                CommandParameter="{Binding Source={x:Reference platoID}, Path=Text}"
+                                                Grid.Row="6"/>
                                             <!--<Stepper Value="{Binding Cantidad}" Minimum="0" Maximum="25" HorizontalOptions="Center"/>-->
                                             <!--Bindear el maximo del stock-->
                                         </Grid>
