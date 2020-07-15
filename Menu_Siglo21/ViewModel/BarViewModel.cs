@@ -77,17 +77,25 @@
             }
             var listBebidas = (List<Receta>)response.Result;
             Bebidas = new ObservableCollection<Receta>();
-            for (int i = 0; i < listBebidas.Count; i++)
+            try
             {
-                if (listBebidas[i].Origen.Id_Origen == 2 && listBebidas[i].Disponibilidad == "D")
-                {                    
-                    Bebidas.Add(listBebidas[i]);                      
-                    this.IsRefreshing = false;
+                for (int i = 0; i < listBebidas.Count; i++)
+                {
+                    if (listBebidas[i].Origen.Id_Origen == 2 && listBebidas[i].Disponibilidad == "D")
+                    {
+                        
+                        Bebidas.Add(listBebidas[i]);
+                        //Debug.WriteLine("------>" + listPlatos[i].Nombre);                    
+                        this.IsRefreshing = false;
+                    }
                 }
+            }
+            catch (Exception ex)
+            {
+                //string error = ex.Message;   
             }
         }
     }
-
     #endregion
 
 

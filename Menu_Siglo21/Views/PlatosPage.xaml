@@ -8,55 +8,65 @@
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
              Title="Platos">
     <ContentPage.Content>
-        <StackLayout BindingContext="{Binding Platos}"><!--Este es el atributo que esta dentro de main(nombre de la viewmodel)-->
+        <StackLayout BindingContext="{Binding Platos}">
+            <!--Este es el atributo que esta dentro de main(nombre de la viewmodel)-->
             <Image Source="LOGORESTAURATSINFONDO.png" HeightRequest="70" BackgroundColor="White"/>
             <RefreshView IsRefreshing="{Binding IsRefreshing}"
-                    Command="{Binding RefreshCommand}" >
-                <CarouselView  ItemsSource="{Binding Platos}"  IndicatorView="indicatorView" BackgroundColor="WhiteSmoke"><!--este binding tiene que ser un atributo dentro de products que sirve para pintar la lista de objs-->
+                    Command="{Binding RefreshCommand}">
+                <CarouselView  ItemsSource="{Binding Platos}"  IndicatorView="indicatorView" BackgroundColor="WhiteSmoke">
+                    <!--este binding tiene que ser un atributo dentro de products que sirve para pintar la lista de objs-->
                     <CarouselView.ItemTemplate>
                         <DataTemplate>
-                            <StackLayout Margin="10" BackgroundColor="WhiteSmoke">
+                            <StackLayout Margin="5" BackgroundColor="WhiteSmoke">
                                 <Label FontAttributes="Bold" Text="{Binding Disponibilidad, Mode=TwoWay}" HorizontalOptions="Center" IsVisible="false">
                                 </Label>
                                 <Label FontAttributes="Bold"  HorizontalOptions="Center" Text="{Binding Origen, Mode=TwoWay}"  IsVisible="false">
-                                </Label>
-                                <!--<Label FontAttributes="Bold"  HorizontalOptions="Center" Text="{Binding Id_Origen, Mode=TwoWay}" IsVisible="true"></Label>-->
-                                <Frame BorderColor="ForestGreen" CornerRadius="10" HasShadow="True" Margin="20" HeightRequest="480" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
-                                    <StackLayout Margin="5" BackgroundColor="FloralWhite">                                        
+                                </Label>                                
+                                <Frame BorderColor="ForestGreen" CornerRadius="10" HasShadow="True" Margin="20" HeightRequest="500" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
+                                    <StackLayout Margin="5" BackgroundColor="FloralWhite">
                                         <Image Source="{Binding ImageUrl}" 
                                         Aspect="AspectFill"
-                                         HeightRequest="170"
-                                         WidthRequest="170"
-                                         HorizontalOptions="Center" Margin="30">
+                                         HeightRequest="120"
+                                         WidthRequest="120"
+                                         HorizontalOptions="Center" Margin="30" >
                                         </Image>
-                                        <Label Text="{Binding Nombre}" FontFamily="bebasNeue" FontAttributes="Bold"
-                                          FontSize="Large"
-                                          HorizontalOptions="Center"
-                                          VerticalOptions="Center" >
-                                        </Label>
-                                        <Label Text="Precio" FontAttributes="Bold" HorizontalOptions="Start"/>
-                                        <Label  FontAttributes="Bold" HorizontalOptions="Center" FontFamily="bebasNeue" Text="{Binding Precio, StringFormat='$ {0}'}">
-                                        </Label>
-                                        <!--<Label FontAttributes="Bold" Text="{Binding Disponibilidad}" HorizontalOptions="Center" IsVisible="false">
-                                        </Label>
-                                        <Label FontAttributes="Bold"  HorizontalOptions="Center" Text="{Binding Origen}" IsVisible="false">
-                                        </Label>-->
-                                        <Label Text="{Binding Descripcion}"
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="20"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Label Text="{Binding Nombre}" FontFamily="bebasNeue" FontAttributes="Bold" Grid.Row="0"
+                                          FontSize="Medium"
+                                          HorizontalOptions="CenterAndExpand"
+                                          VerticalOptions="CenterAndExpand">
+                                            </Label>
+                                            <Label Text="{Binding Descripcion}"
                                                 FontAttributes="Italic"
-                                                HorizontalOptions="Center"
-                                                VerticalOptions="Center"
-                                                MaxLines="10"
-                                                LineBreakMode="TailTruncation">
-                                        </Label>                                        
-                                        <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                                            <Label Text="Llevas: " HorizontalOptions="Center" FontAttributes="Bold"></Label>
-                                            <Entry x:Name="txtCantidadCount" Text="{Binding Source={x:Reference StepperCounterCant}, Path=Value}" HorizontalTextAlignment="Center"/>
-                                          <!--  <Label Text="{Binding Cantidad, StringFormat='{0} platos'}" />-->                                            
-                                            <!--<Stepper Minimum="0" Maximum="20" Increment="1" HorizontalOptions="Center" BackgroundColor="FloralWhite"  />-->                                        </StackLayout>
-                                        <Stepper x:Name="StepperCounterCant" Minimum="0" Maximum="25" Increment="1" HorizontalOptions="Center"
-                                                Value="0" ValueChanged="StepperCounterCant_ValueChanged"/>
-                                        <!--<Stepper Value="{Binding Cantidad}" Minimum="0" Maximum="25" HorizontalOptions="Center"/>-->
-                                        <!--Bindear el maximo del stock-->
+                                                HorizontalOptions="CenterAndExpand"
+                                                VerticalOptions="CenterAndExpand"
+                                                MaxLines="3"
+                                                LineBreakMode="TailTruncation" Grid.Row="2">
+                                            </Label>
+                                            <Label Text="Precio" FontAttributes="Bold" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Grid.Row="3"/>
+                                            <Label FontAttributes="Bold" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" FontFamily="bebasNeue" Text="{Binding Precio, StringFormat='$ {0}'}" 
+                                                   Grid.Row="3"></Label>
+                                            <Label Text="Llevas: " HorizontalOptions="StartAndExpand" FontAttributes="Bold" Grid.Row="4"></Label>
+                                            <Entry Text="{Binding  Source={x:Reference Name=StepperCounterCant}, Path=Value}" HorizontalTextAlignment="Center"
+                                                   Grid.Row="4" IsEnabled="False" HorizontalOptions="EndAndExpand" />
+                                            <Stepper x:Name="StepperCounterCant" Minimum="0" Maximum="25" Increment="1" HorizontalOptions="CenterAndExpand" Value="0" Grid.Row="5"/>
+                                            <Button HorizontalOptions="CenterAndExpand"
+                                                VerticalOptions="CenterAndExpand" Text="Agregar a Tu Pedido"
+                                                TextColor="Black"
+                                                CornerRadius="13" BorderColor="ForestGreen" BorderWidth="2"
+                                                BackgroundColor="White" Command="{Binding AgregarPedidoCommand}" Grid.Row="6"/>
+                                            <!--<Stepper Value="{Binding Cantidad}" Minimum="0" Maximum="25" HorizontalOptions="Center"/>-->
+                                            <!--Bindear el maximo del stock-->
+                                        </Grid>
                                     </StackLayout>
                                 </Frame>
                             </StackLayout>

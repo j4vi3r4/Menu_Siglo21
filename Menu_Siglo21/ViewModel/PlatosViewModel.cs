@@ -3,11 +3,15 @@
     using GalaSoft.MvvmLight.Command;
     using Menu_Siglo21.Model;
     using Menu_Siglo21.Services;
+    using Menu_Siglo21.Views;
+    using Newtonsoft.Json;
+    using Newtonsoft.Json.Serialization;
     using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
     using System.Linq;
+    using System.Reflection;
     using System.Text;
     using System.Windows.Input;
     using Xamarin.Forms;
@@ -19,17 +23,26 @@
         bool isRefreshing; // para refrescar la lista
         private ApiService apiService;
         private ObservableCollection<Receta> platos;
-  //      private ObservableCollection<Receta> origenes;
+        private string txtCantidadCount;
+
         #endregion
 
 
         #region Propiedades
+
+        public string Cantidad { get; set; }
+        
         public ObservableCollection<Receta> Platos //PROPIEDAD ItemsSource="{Binding Platos}" DEL XAML
         {
             get { return this.platos; }
             set { this.SetValue(ref this.platos, value); }
         }
-               
+        public string TxtCantidadCount
+        {
+            get { return this.txtCantidadCount; }
+            set { this.SetValue(ref this.txtCantidadCount, value); }
+        }
+
         public bool IsRefreshing
         {
             get { return this.isRefreshing; }
@@ -38,7 +51,7 @@
         public PlatosViewModel()
         {
             this.apiService = new ApiService();
-            this.LoadPlatos();
+            this.LoadPlatos();            
         }
         #endregion
 
@@ -51,6 +64,16 @@
                 return new RelayCommand(LoadPlatos);
             }
         }
+
+       public ICommand AgregarPedidoCommand
+        {
+            get
+            {
+                return new RelayCommand(AgregarPlatoPedido);
+            }
+        }
+                
+
         #endregion
 
         #region Methods
@@ -74,17 +97,26 @@
             }
             var listPlatos = (List<Receta>)response.Result;
             Platos = new ObservableCollection<Receta>();
-            for (int i = 0; i < listPlatos.Count; i++)
-            {
-                if (listPlatos[i].Origen.Id_Origen == 1 && listPlatos[i].Disponibilidad == "D")
-                {                                       
-                    Platos.Add(listPlatos[i]); 
-                  ///  Debug.WriteLine("------>" + listPlatos[i].Nombre);                    
-                    this.IsRefreshing = false ;                    
-                }                    
-            }
+
+            
+                for (int i = 0; i < listPlatos.Count; i++)
+                {
+                    if (listPlatos[i].Origen.Id_Origen == 1 && listPlatos[i].Disponibilidad == "D")
+                    {
+                        Platos.Add(listPlatos[i]);
+                        //Debug.WriteLine("------>" + listPlatos[i].Nombre);                    
+                        this.IsRefreshing = false;
+                    }
+                }                      
         }
+
+        private async void AgregarPlatoPedido()
+        {
+           
+        }
+
+
     }
-        #endregion
+    #endregion
 }
 

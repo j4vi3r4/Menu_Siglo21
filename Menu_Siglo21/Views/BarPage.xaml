@@ -5,6 +5,7 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
              mc:Ignorable="d"
              x:Class="Menu_Siglo21.Views.BarPage"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
              Title="Bebidas">
     <ContentPage.Content>
         <StackLayout BindingContext="{Binding Bebidas}">
@@ -65,5 +66,4 @@
                        Margin="0,0,0,40" />
         </StackLayout>
     </ContentPage.Content>
-
 </ContentPage>

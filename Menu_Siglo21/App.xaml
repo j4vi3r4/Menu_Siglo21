@@ -15,8 +15,7 @@
         <!--Parametros-->
         <x:String x:Key="UrlAPI">http://34.230.13.150:4567</x:String>
         <!--local 10.0.2.2:4567 / aws http://34.230.13.150:4567 -->
-        <x:String x:Key="Prefix">/app</x:String>
-        
+        <x:String x:Key="Prefix">/app</x:String>        
             <!--Fuentes-->
             <OnPlatform x:Key="BebasNeue" x:TypeArguments="x:String">
                 <On Platform="Android" Value="bebasNeue.ttf#bebasNeue"/>

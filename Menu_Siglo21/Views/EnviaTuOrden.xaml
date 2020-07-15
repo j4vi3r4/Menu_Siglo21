@@ -8,16 +8,26 @@
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
              Title="Envía tu Orden">
     <ContentPage.Content>
-        <!---->
         <StackLayout BindingContext="{Binding EnviarOrden}">
-            <Frame>
-            <Label Text="Pedido que llevas (list)
-                   ESTA SERA UNA LISTA"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+            <Frame BorderColor="Orange" CornerRadius="10" HasShadow="True">
+                <ListView ItemsSource="{Binding EnviarOrden}">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout>
+                                    <Grid BackgroundColor="Red" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="1">
+                                        <Label Text="{Binding Nombre}" />
+                                        <Label Text="{Binding Precio}"/>
+                                        <Label Text="{Binding Cantidad}"/>                                      
+                                    </Grid>
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>                    
+                                    
+                </ListView>            
             </Frame>
-            <Button Text="Enviar Orden " Command="{Binding EnviarOrdenCommand}"  />
-            
+            <Button Text="Enviar Orden " Command="{Binding EnviarOrdenCommand}"/>
             <Button Text="Paga tu cuenta"/>
         </StackLayout>
     </ContentPage.Content>

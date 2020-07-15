@@ -27,7 +27,7 @@ namespace Menu_Siglo21.Model
 
         public Origen Origen { get; set; }
 
-        //  public int Eleminado { get; set; }
+        //public int Eleminado { get; set; }
 
         public override string ToString()
         {
