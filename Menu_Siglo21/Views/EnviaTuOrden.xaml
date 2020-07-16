@@ -9,26 +9,28 @@
              Title="Envía tu Orden">
     <ContentPage.Content>
         <StackLayout BindingContext="{Binding EnviarOrden}">
-            <Frame BorderColor="Orange" CornerRadius="10" HasShadow="True">
-                <ListView ItemsSource="{Binding EnviarOrden}">
-                    <ListView.ItemTemplate>
-                        <DataTemplate>
-                            <ViewCell>
-                                <StackLayout>
-                                    <Grid BackgroundColor="Red" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="1">
-                                        <Label Text="{Binding Nombre}" />
-                                        <Label Text="{Binding Precio}"/>
-                                        <Label Text="{Binding Cantidad}"/>                                      
-                                    </Grid>
-                                </StackLayout>
-                            </ViewCell>
-                        </DataTemplate>
-                    </ListView.ItemTemplate>                    
-                                    
-                </ListView>            
-            </Frame>
+            <Image Source="LOGORESTAURATSINFONDO.png" HeightRequest="70" BackgroundColor="White"/>
+            <RefreshView IsRefreshing="{Binding IsRefreshing}"
+                    Command="{Binding RefreshCommand}">
+                <Frame BorderColor="Orange" CornerRadius="10" HasShadow="True">
+                    <ListView ItemsSource="{Binding EnviarOrden}">
+                        <ListView.ItemTemplate>
+                            <DataTemplate>
+                                <ViewCell>
+                                    <StackLayout>
+                                        <Grid BackgroundColor="Beige" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Padding="1">
+                                            <Label Text="{Binding cantidad}" FontAttributes="Bold" HorizontalOptions="Center"/>
+                                            <Label Text="{Binding id_receta}" FontAttributes="Bold" HorizontalOptions="Center" />
+                                        </Grid>
+                                    </StackLayout>
+                                </ViewCell>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>                    
+                </Frame>                
+            </RefreshView>
             <Button Text="Enviar Orden " Command="{Binding EnviarOrdenCommand}"/>
             <Button Text="Paga tu cuenta"/>
-        </StackLayout>
+        </StackLayout>        
     </ContentPage.Content>
 </ContentPage>

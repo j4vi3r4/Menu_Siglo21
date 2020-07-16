@@ -123,8 +123,7 @@
                 for (int i = 0; i < listBebidas.Count; i++)
                 {
                     if (listBebidas[i].Origen.Id_Origen == 2 && listBebidas[i].Disponibilidad == "D")
-                    {
-                        
+                    {                        
                         Bebidas.Add(listBebidas[i]);
                         //Debug.WriteLine("------>" + listPlatos[i].Nombre);                    
                         this.IsRefreshing = false;

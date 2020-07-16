@@ -88,7 +88,7 @@
             }
         }
 
-       public ICommand AgregarPedidoCommand
+        public ICommand AgregarPedidoCommand
         {
             get
             {

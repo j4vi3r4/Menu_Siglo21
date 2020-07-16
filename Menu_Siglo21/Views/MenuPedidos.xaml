@@ -12,24 +12,7 @@
     <TabbedPage.Children>
     <local:PlatosPage>       
         </local:PlatosPage>
-    <local:BarPage>
-           <!--
-            <ContentPage.Content>
-                <StackLayout  BindingContext="{Binding Recetas}">
-                    <ListView ItemsSource="{Binding Recetas}">
-                        <ListView.ItemTemplate>
-                            <DataTemplate>
-                                <ViewCell>
-                                    <Grid>
-                                        <Label FontAttributes="Bold"  HorizontalOptions="Center" Text="{Binding Origen}" IsVisible="false"></Label>
-                                        <Label FontAttributes="Bold" Text="{Binding Disponibilidad}" HorizontalOptions="Center" IsVisible="false"></Label>
-                                    </Grid>
-                                </ViewCell>
-                            </DataTemplate>
-                        </ListView.ItemTemplate>
-                    </ListView>
-                </StackLayout>
-            </ContentPage.Content>-->
+    <local:BarPage>           
         </local:BarPage>        
         <!--  <local:PagarCuentaPage></local:PagarCuentaPage>-->
         <local:EnviaTuOrden></local:EnviaTuOrden>
