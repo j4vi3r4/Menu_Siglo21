@@ -12,45 +12,70 @@
             <Image Source="LOGORESTAURATSINFONDO.png" HeightRequest="75" BackgroundColor="White"/>
             <RefreshView IsRefreshing="{Binding IsRefreshing}"
                     Command="{Binding RefreshCommand}" >
-                <CarouselView  ItemsSource="{Binding Bebidas}" IndicatorView="indicatorView" BackgroundColor="WhiteSmoke">
+                <CarouselView  ItemsSource="{Binding Bebidas}" IndicatorView="indicatorView" BackgroundColor="WhiteSmoke"  x:Name="BebidasSeleccion">
                     <CarouselView.ItemTemplate>
                         <DataTemplate>
                             <StackLayout Margin="10" BackgroundColor="WhiteSmoke">
-                                <Frame BorderColor="ForestGreen" CornerRadius="10" HasShadow="True" Margin="20" HeightRequest="480" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
+                                <Label FontAttributes="Bold" Text="{Binding Disponibilidad, Mode=TwoWay}" HorizontalOptions="Center" IsVisible="false">
+                                </Label>
+                                <Label FontAttributes="Bold"  HorizontalOptions="Center" Text="{Binding Origen, Mode=TwoWay}"  IsVisible="false">
+                                </Label>
+                                <Frame BorderColor="ForestGreen" CornerRadius="10" HasShadow="True" Margin="20" HeightRequest="500" HorizontalOptions="Center" VerticalOptions="CenterAndExpand">
                                     <StackLayout Margin="5" BackgroundColor="FloralWhite">
-                                        <!--acá se debe bindiera a la imagen url que seran enviada aún no esta en la bd -->
                                         <Image Source="{Binding ImageUrl}" 
                                         Aspect="AspectFill"
-                                          HeightRequest="170"
-                                         WidthRequest="170"
-                                         HorizontalOptions="Center" Margin="30">
+                                         HeightRequest="120"
+                                         WidthRequest="120"
+                                         HorizontalOptions="Center" Margin="30" >
                                         </Image>
-                                        <Label Text="{Binding Nombre}" FontAttributes="Bold"
-                                          FontSize="Large"
-                                          HorizontalOptions="Center"
-                                          VerticalOptions="Center" >
-                                        </Label>
-                                        <Label Text="Precio" FontAttributes="Bold" HorizontalOptions="Start"/>
-                                        <Label  FontAttributes="Bold" HorizontalOptions="Center" Text="{Binding Precio, StringFormat='$ {0}'}">
-                                        </Label>
-                                        <Label FontAttributes="Bold" Text="{Binding Disponibilidad}" HorizontalOptions="Center" IsVisible="false">
-                                        </Label>
-                                        <Label FontAttributes="Bold"  HorizontalOptions="Center" Text="{Binding Origen}" IsVisible="false">
-                                        </Label>
-                                        <Label Text="{Binding Descripcion}"
+                                        <Grid>
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="20"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                                <RowDefinition Height="*"/>
+                                            </Grid.RowDefinitions>
+                                            <Label Text="{Binding Nombre}" FontFamily="bebasNeue" FontAttributes="Bold" Grid.Row="0"
+                                          FontSize="Medium"
+                                          HorizontalOptions="CenterAndExpand"
+                                          VerticalOptions="CenterAndExpand">
+                                            </Label>
+                                            <Label Text="{Binding Descripcion}"
                                                 FontAttributes="Italic"
-                                                HorizontalOptions="Center"
-                                                VerticalOptions="Center"
-                                                MaxLines="10"
-                                                LineBreakMode="TailTruncation">
-                                        </Label>
-                                        <Label Text="Llevas: " HorizontalOptions="Center" FontAttributes="Bold"></Label>
-                                        <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
-                                            <Label Text="{Binding Cantidad, StringFormat='{0} platos'}" />
-                                            <Stepper Value="{Binding Cantidad}" Minimum="0" Maximum="25" HorizontalOptions="Center"/>
-                                            <!--<Stepper Minimum="0" Maximum="20" Increment="1" HorizontalOptions="Center" BackgroundColor="FloralWhite"  />-->
-                                        </StackLayout>
-                                        <!--Bindear el maximo del stock-->
+                                                HorizontalOptions="CenterAndExpand"
+                                                VerticalOptions="CenterAndExpand"
+                                                MaxLines="3"
+                                                LineBreakMode="TailTruncation" Grid.Row="2">
+                                            </Label>
+                                            <Label Text="Precio" FontAttributes="Bold" HorizontalOptions="FillAndExpand" VerticalOptions="CenterAndExpand" Grid.Row="3"/>
+                                            <Label FontAttributes="Bold" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand" FontFamily="bebasNeue" Text="{Binding Precio, StringFormat='$ {0}'}" 
+                                                   Grid.Row="3"></Label>
+                                            <Label Text="Llevas: " HorizontalOptions="StartAndExpand" FontAttributes="Bold" Grid.Row="4"></Label>
+
+
+                                            <Entry BindingContext="{x:Reference StepperCounterCant}" Text="{Binding Value}"  HorizontalTextAlignment="Center"
+                                                Grid.Row="4" IsEnabled="False" HorizontalOptions="EndAndExpand" />
+                                            <Stepper 
+                                                BindingContext="{Binding Source={x:Reference BebidasSeleccion}, Path=BindingContext}" 
+                                                x:Name="StepperCounterCant" Minimum="0" Maximum="25" Increment="1" 
+                                                HorizontalOptions="CenterAndExpand" Grid.Row="5" 
+                                                Value="{Binding TxtCantidadCount}"/>
+                                            <Label x:Name="bebidaID" Text="{Binding Id_receta}" IsVisible="false" />
+
+                                            <Button HorizontalOptions="CenterAndExpand"
+                                                VerticalOptions="CenterAndExpand" Text="Agregar a Tu Pedido"
+                                                TextColor="Black"
+                                                CornerRadius="13" BorderColor="ForestGreen" BorderWidth="2"
+                                                BackgroundColor="White" 
+                                                Command="{Binding Source={x:Reference BebidasSeleccion}, Path=BindingContext.AddElementCommand}"
+                                                CommandParameter="{Binding Source={x:Reference bebidaID}, Path=Text}"
+                                                Grid.Row="6"/>
+                                            <!--<Stepper Value="{Binding Cantidad}" Minimum="0" Maximum="25" HorizontalOptions="Center"/>-->
+                                            <!--Bindear el maximo del stock-->
+                                        </Grid>
                                     </StackLayout>
                                 </Frame>
                             </StackLayout>

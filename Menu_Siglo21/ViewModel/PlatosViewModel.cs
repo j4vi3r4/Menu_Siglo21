@@ -3,21 +3,11 @@
     using GalaSoft.MvvmLight.Command;
     using Menu_Siglo21.Model;
     using Menu_Siglo21.Services;
-    using Menu_Siglo21.Views;
-    using Newtonsoft.Json;
-    using Newtonsoft.Json.Serialization;
-    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
-    using System.ComponentModel;
     using System.Diagnostics;
-    using System.Linq;
-    using System.Reflection;
-    using System.Text;
-    using System.Transactions;
     using System.Windows.Input;
     using Xamarin.Forms;
-    using Xamarin.Forms.Internals;
 
     public class PlatosViewModel : BaseViewModel
     {
@@ -65,20 +55,24 @@
             AddElementCommand = new Command<string>(
                 execute: (string arg) =>
                 {
-                    RecetaObject recetaObject = new RecetaObject();
+                    if (txtCantidadCount > 0)
+                    {
+                        RecetaObject recetaObject = new RecetaObject();
 
-                    recetaObject.cantidad = txtCantidadCount;
-                    recetaObject.id_receta = int.Parse(arg);
+                        recetaObject.cantidad = txtCantidadCount;
+                        recetaObject.id_receta = int.Parse(arg);
 
-                    //Agregamos a la lista de insumos
-                    RecetasArray.Add(recetaObject);
-                    
-                    //Seteamos el setteper a 0
-                    txtCantidadCount = 0;
+                        //Agregamos a la lista de insumos
+                        RecetasArray.Add(recetaObject);
 
+                        //Seteamos el setteper a 0
+                        txtCantidadCount = 0;
 
-                    //Debug.WriteLine("-------> String Arg: " + arg);
-                    //Debug.WriteLine("-------> Text Count: " + txtCantidadCount + " / " + Value );
+                        RefreshCanExecutes();
+                        //Debug.WriteLine("-------> String Arg: " + arg);
+                        //Debug.WriteLine("-------> Text Count: " + txtCantidadCount + " / " + Value );
+                        Debug.WriteLine("-------> Cantidad Elementos: " + RecetasArray.Count);
+                    }
                 }
                 );
         }
