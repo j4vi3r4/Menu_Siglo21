@@ -94,7 +94,7 @@ namespace Menu_Siglo21.Services
 
                 //Parsea la respuesta como string
                 string answer = await response.Content.ReadAsStringAsync();
-                //Debug.WriteLine("----> POST awser: " + answer);
+                Debug.WriteLine("----> POST awser: " + answer.ToString());
 
                 if (!response.IsSuccessStatusCode)
                 {

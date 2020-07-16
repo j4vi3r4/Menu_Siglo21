@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -17,24 +18,17 @@ namespace Menu_Siglo21.ViewModel
         #region Atributos
         private ApiService apiService;
         private bool isRefreshing;
-        private ObservableCollection<Receta> enviarOrden;
-        private static ArrayList recetaArray;
-
-
-        // private BarViewModel barViewModel;
-
-        //   private ObservableCollection<Orden> enviarOrden;
-
+        private ObservableCollection<Receta> listaOrden;
         
         #endregion
 
         #region Propiedades
           
        // public static ArrayList RecetasArray { get; set; }
-        public ObservableCollection<Receta> EnviarOrden // CON este hace binding al xaml enviatuorden.xaml en la parte del listview 
+        public ObservableCollection<Receta> ListaOrden // CON este hace binding al xaml enviatuorden.xaml en la parte del listview 
         {
-            get { return this.enviarOrden; }
-            set { this.SetValue(ref this.enviarOrden, value); }
+            get { return this.listaOrden; }
+            set { this.SetValue(ref this.listaOrden, value); }
         }
         public bool IsRefreshing
         {
@@ -45,6 +39,17 @@ namespace Menu_Siglo21.ViewModel
         {
             this.apiService = new ApiService();
             this.CargarPedidos();
+
+            EnviarOrdenCommand = new Command<string>(
+                execute: async (string arg) =>
+                {
+                    if (RecetasArray.Count > 0)
+                    {
+                        await SendOrdenAsync();
+                        RefreshCanExecutes();
+                    }
+                }
+                );
         }
         #endregion
 
@@ -68,18 +73,6 @@ namespace Menu_Siglo21.ViewModel
         #endregion
 
         #region Methods
-        
-        public EnviaTuOrdenViewModel() {
-            EnviarOrdenCommand = new Command<string>(
-                execute: async (string arg) =>
-                {
-                    if (RecetasArray.Count > 0)
-                    {
-                        await SendOrdenAsync();
-                    }
-                }
-                );
-        }
 
         private async void CargarPedidos()
         {
@@ -100,17 +93,14 @@ namespace Menu_Siglo21.ViewModel
                 return;
             }
             var listRecetas = (List<Receta>)response.Result;
-         var listArray = (List<Receta>)response.Result;
-            
+            var listArray = (List<Receta>)response.Result;
 
-            EnviarOrden = new ObservableCollection<Receta>(listRecetas);
+            ListaOrden = new ObservableCollection<Receta>(listRecetas);
            // RecetasArray = new ArrayList(recetaArray);
-            RecetasArray = new ArrayList(listArray);
             this.IsRefreshing = false;         
-
         }
 
-        private async System.Threading.Tasks.Task SendOrdenAsync()
+        private async Task SendOrdenAsync()
         {
             var connection = await this.apiService.CheckConnection(); // validación de conexión a internet 
             Debug.WriteLine("------> connection " + connection);

@@ -3,6 +3,7 @@
     using GalaSoft.MvvmLight.Command;
     using Menu_Siglo21.Model;
     using Menu_Siglo21.Services;
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.Diagnostics;
@@ -109,43 +110,50 @@
         #region Methods
         private async void LoadPlatos()
         {
-            this.IsRefreshing = true;
-            var connection = await this.apiService.CheckConnection(); // validación de conexión a internet 
-
-            if (!connection.IsSuccess)
+            try
             {
-                this.IsRefreshing = false;
-                await Application.Current.MainPage.DisplayAlert("Error", connection.Message, "Accept");
-                return;
-            }
+                this.IsRefreshing = true;
+                var connection = await this.apiService.CheckConnection(); // validación de conexión a internet 
 
-            var url = Application.Current.Resources["UrlAPI"].ToString();
-            var prefix = Application.Current.Resources["Prefix"].ToString();
-            var response = await this.apiService.GetList<Receta>(url, prefix, "/listarrecetas");
-
-            if (!response.IsSuccess)
-            {
-                await Application.Current.MainPage.DisplayAlert("Error", response.Message, "Aceptar");
-                return;
-            }
-
-            var listPlatos = (List<Receta>)response.Result;
-            Platos = new ObservableCollection<Receta>();
-            
-            for (int i = 0; i < listPlatos.Count; i++)
-            {
-                if (listPlatos[i].Origen.Id_Origen == 1 && listPlatos[i].Disponibilidad == "D")
+                if (!connection.IsSuccess)
                 {
-                    Platos.Add(listPlatos[i]);
-                    //Debug.WriteLine("------>" + listPlatos[i].Nombre);                    
                     this.IsRefreshing = false;
+                    await Application.Current.MainPage.DisplayAlert("Error", connection.Message, "Accept");
+                    return;
                 }
-            }                      
+
+                var url = Application.Current.Resources["UrlAPI"].ToString();
+                var prefix = Application.Current.Resources["Prefix"].ToString();
+                var response = await this.apiService.GetList<Receta>(url, prefix, "/listarrecetas");
+
+                if (!response.IsSuccess)
+                {
+                    await Application.Current.MainPage.DisplayAlert("Error", response.Message, "Aceptar");
+                    return;
+                }
+
+                var listPlatos = (List<Receta>)response.Result;
+                Platos = new ObservableCollection<Receta>();
+
+                for (int i = 0; i < listPlatos.Count; i++)
+                {
+                    if (listPlatos[i].Origen.Id_Origen == 1 && listPlatos[i].Disponibilidad == "D")
+                    {
+                        Platos.Add(listPlatos[i]);
+                        //Debug.WriteLine("------>" + listPlatos[i].Nombre);                    
+                        this.IsRefreshing = false;
+                    }
+                }
+            }
+            catch (Exception e) {
+                Debug.WriteLine("[EX] -----> " + e.Message);
+                this.IsRefreshing = false;
+            }
         }
 
-        private  void AgregarPlatoPedido()
+        private void AgregarPlatoPedido()
         {
-           
+
         }
 
     }

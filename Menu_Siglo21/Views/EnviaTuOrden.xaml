@@ -13,7 +13,7 @@
             <RefreshView IsRefreshing="{Binding IsRefreshing}"
                     Command="{Binding RefreshCommand}">
                 <Frame BorderColor="Orange" CornerRadius="10" HasShadow="True">
-                    <ListView ItemsSource="{Binding EnviarOrden}">
+                    <ListView ItemsSource="{Binding listaOrden}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
