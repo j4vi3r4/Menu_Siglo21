@@ -13,7 +13,7 @@
             <RefreshView IsRefreshing="{Binding IsRefreshing}"
                     Command="{Binding RefreshCommand}">
                 <Frame BorderColor="Orange" CornerRadius="10" HasShadow="True">
-                    <ListView ItemsSource="{Binding EnviarOrden}">
+                    <ListView ItemsSource="{Binding listaOrden}">
                         <ListView.ItemTemplate>
                             <DataTemplate>
                                 <ViewCell>
@@ -30,7 +30,7 @@
                 </Frame>                
             </RefreshView>
             <Button Text="Enviar Orden " Command="{Binding EnviarOrdenCommand}"/>
-            <Button Text="Paga tu cuenta"/>
+            <!-- <Button Text="Paga tu cuenta"/> -->
         </StackLayout>        
     </ContentPage.Content>
 </ContentPage>

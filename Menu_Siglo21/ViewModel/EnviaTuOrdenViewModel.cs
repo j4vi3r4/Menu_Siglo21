@@ -5,7 +5,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -16,24 +18,17 @@ namespace Menu_Siglo21.ViewModel
         #region Atributos
         private ApiService apiService;
         private bool isRefreshing;
-        private ObservableCollection<Receta> enviarOrden;
-        private static ArrayList recetaArray;
-
-
-        // private BarViewModel barViewModel;
-
-        //   private ObservableCollection<Orden> enviarOrden;
-
+        private ObservableCollection<Receta> listaOrden;
         
         #endregion
 
         #region Propiedades
           
        // public static ArrayList RecetasArray { get; set; }
-        public ObservableCollection<Receta> EnviarOrden // CON este hace binding al xaml enviatuorden.xaml en la parte del listview 
+        public ObservableCollection<Receta> ListaOrden // CON este hace binding al xaml enviatuorden.xaml en la parte del listview 
         {
-            get { return this.enviarOrden; }
-            set { this.SetValue(ref this.enviarOrden, value); }
+            get { return this.listaOrden; }
+            set { this.SetValue(ref this.listaOrden, value); }
         }
         public bool IsRefreshing
         {
@@ -44,12 +39,29 @@ namespace Menu_Siglo21.ViewModel
         {
             this.apiService = new ApiService();
             this.CargarPedidos();
+
+            EnviarOrdenCommand = new Command<string>(
+                execute: async (string arg) =>
+                {
+                    if (RecetasArray.Count > 0)
+                    {
+                        await SendOrdenAsync();
+                        RefreshCanExecutes();
+                    }
+                }
+                );
         }
         #endregion
 
         #region Commands
 
-        
+        public ICommand EnviarOrdenCommand { private set; get; }
+
+        private void RefreshCanExecutes()
+        {
+            ((Command)EnviarOrdenCommand).ChangeCanExecute();
+        } 
+
         public ICommand RefreshCommand
         {
             get
@@ -57,9 +69,6 @@ namespace Menu_Siglo21.ViewModel
                 return new RelayCommand(CargarPedidos);
             }
         }
-
-
-
 
         #endregion
 
@@ -84,21 +93,107 @@ namespace Menu_Siglo21.ViewModel
                 return;
             }
             var listRecetas = (List<Receta>)response.Result;
-         var listArray = (List<Receta>)response.Result;
-            
+            var listArray = (List<Receta>)response.Result;
 
-            EnviarOrden = new ObservableCollection<Receta>(listRecetas);
-           // RecetasArray = new ArrayList(recetaArray);
-            RecetasArray = new ArrayList(listArray);
+            ListaOrden = new ObservableCollection<Receta>(listRecetas);
+
             this.IsRefreshing = false;         
-
         }
 
-
-        /*private void SendOrden()
+        private async Task SendOrdenAsync()
         {
-            //agregar cantidad id_receta
-        }*/
+            var connection = await this.apiService.CheckConnection(); // validación de conexión a internet 
+            //Debug.WriteLine("------> connection " + connection);
+            if (!connection.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", connection.Message, "Accept");
+                return;
+            }
+
+            // Aquí le pasamos la ID de mesa en bruto hasta que no podamos guardar en el setting
+            string id_mesa = "25";
+
+            string id_comensal = await getComensal(id_mesa);
+
+            if (id_comensal.Equals("-1"))
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "No se ha registrado en el totem", "Accept");
+                return;
+            }
+
+            // >>> Este código concatena los platos y las cantidades para 
+            string platosJson = "[";
+            string cantidadJson = "[";
+
+            int lenght = RecetasArray.Count;
+
+            for (int i = 0; i < lenght; i++)
+            {
+                RecetaObject item = (RecetaObject)RecetasArray[i];
+
+                platosJson += "\"" + item.id_receta + "\"";
+                cantidadJson += "\"" + item.cantidad + "\"";
+
+                if (i < (lenght - 1)) {
+                    platosJson += ",";
+                    cantidadJson += ",";
+                }
+            }
+
+            platosJson += "]";
+            cantidadJson += "]";
+
+            string json = "{ \"id_comensal\" : \"" + id_comensal + "\", \"platos\" :" + platosJson + ", \"cantidad\" :" + cantidadJson + " }";
+            Debug.WriteLine("-----> JSON Query :" + json);
+
+            string url = Application.Current.Resources["UrlAPI"].ToString();
+            string prefix = Application.Current.Resources["Prefix"].ToString();
+            var response = await this.apiService.PostUpdate<string>(json, url, prefix, "/crearPreorden"); //acá lista de mesa
+
+            if (!response.IsSuccess)
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", response.Message, "Accept");
+                return;
+            }
+
+            if (response.Result.ToString().Equals("0"))
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "Erro al mandar orden, intente nuevamente", "Accept");
+                return;
+            }
+
+            await Application.Current.MainPage.DisplayAlert("OK", "Pedido enviado correctamente", "Accept");
+
+            RecetasArray.Clear();
+            RecetasArray.TrimToSize();
+        }
+
+        // TODO: Agregar el buscar comensal primero antes de hacer la agregación
+
+        private async Task<string> getComensal(string id_mesa)
+        {
+            var connection = await this.apiService.CheckConnection(); // validación de conexión a internet 
+            //Debug.WriteLine("------> connection " + connection);
+            if (!connection.IsSuccess)
+            {
+                return "-1";
+            }
+
+            string json = "{ \"id_mesa\" : \"" + id_mesa + "\" }";
+            //Debug.WriteLine("-----> JSON Query :" + json);
+
+            string url = Application.Current.Resources["UrlAPI"].ToString();
+            string prefix = Application.Current.Resources["Prefix"].ToString();
+            var response = await this.apiService.PostUpdate<string>(json, url, prefix, "/getComensal"); //acá lista de mesa
+
+            if (!response.IsSuccess)
+                return "-1";
+
+            if (response.Result.ToString().Equals("0"))
+                return "-1";
+
+            return response.Result.ToString();
+        }
 
         #endregion
 
