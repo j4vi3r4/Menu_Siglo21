@@ -96,14 +96,14 @@ namespace Menu_Siglo21.ViewModel
             var listArray = (List<Receta>)response.Result;
 
             ListaOrden = new ObservableCollection<Receta>(listRecetas);
-           // RecetasArray = new ArrayList(recetaArray);
+
             this.IsRefreshing = false;         
         }
 
         private async Task SendOrdenAsync()
         {
             var connection = await this.apiService.CheckConnection(); // validación de conexión a internet 
-            Debug.WriteLine("------> connection " + connection);
+            //Debug.WriteLine("------> connection " + connection);
             if (!connection.IsSuccess)
             {
                 await Application.Current.MainPage.DisplayAlert("Error", connection.Message, "Accept");
@@ -111,7 +111,15 @@ namespace Menu_Siglo21.ViewModel
             }
 
             // Aquí le pasamos la ID de mesa en bruto hasta que no podamos guardar en el setting
-            int id_mesa = 5;
+            string id_mesa = "25";
+
+            string id_comensal = await getComensal(id_mesa);
+
+            if (id_comensal.Equals("-1"))
+            {
+                await Application.Current.MainPage.DisplayAlert("Error", "No se ha registrado en el totem", "Accept");
+                return;
+            }
 
             // >>> Este código concatena los platos y las cantidades para 
             string platosJson = "[";
@@ -135,7 +143,7 @@ namespace Menu_Siglo21.ViewModel
             platosJson += "]";
             cantidadJson += "]";
 
-            string json = "{ \"id_mesa\" : \"" + id_mesa + "\", \"platos\" :" + platosJson + ", \"cantidad\" :" + cantidadJson + " }";
+            string json = "{ \"id_comensal\" : \"" + id_comensal + "\", \"platos\" :" + platosJson + ", \"cantidad\" :" + cantidadJson + " }";
             Debug.WriteLine("-----> JSON Query :" + json);
 
             string url = Application.Current.Resources["UrlAPI"].ToString();
@@ -160,10 +168,32 @@ namespace Menu_Siglo21.ViewModel
             RecetasArray.TrimToSize();
         }
 
-        /*private void SendOrden()
+        // TODO: Agregar el buscar comensal primero antes de hacer la agregación
+
+        private async Task<string> getComensal(string id_mesa)
         {
-            //agregar cantidad id_receta
-        }*/
+            var connection = await this.apiService.CheckConnection(); // validación de conexión a internet 
+            //Debug.WriteLine("------> connection " + connection);
+            if (!connection.IsSuccess)
+            {
+                return "-1";
+            }
+
+            string json = "{ \"id_mesa\" : \"" + id_mesa + "\" }";
+            //Debug.WriteLine("-----> JSON Query :" + json);
+
+            string url = Application.Current.Resources["UrlAPI"].ToString();
+            string prefix = Application.Current.Resources["Prefix"].ToString();
+            var response = await this.apiService.PostUpdate<string>(json, url, prefix, "/getComensal"); //acá lista de mesa
+
+            if (!response.IsSuccess)
+                return "-1";
+
+            if (response.Result.ToString().Equals("0"))
+                return "-1";
+
+            return response.Result.ToString();
+        }
 
         #endregion
 

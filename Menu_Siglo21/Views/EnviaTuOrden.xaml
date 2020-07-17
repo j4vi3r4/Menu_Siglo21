@@ -30,7 +30,7 @@
                 </Frame>                
             </RefreshView>
             <Button Text="Enviar Orden " Command="{Binding EnviarOrdenCommand}"/>
-            <Button Text="Paga tu cuenta"/>
+            <!-- <Button Text="Paga tu cuenta"/> -->
         </StackLayout>        
     </ContentPage.Content>
 </ContentPage>
