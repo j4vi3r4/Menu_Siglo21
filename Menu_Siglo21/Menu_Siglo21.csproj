@@ -11,7 +11,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Fonts\CourierPrimeRegular.ttf" />
+    <None Remove="Fonts\GaladaRegular.ttf" />
     <None Remove="Services\rhz5mkbm.inl~" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Fonts\CourierPrimeRegular.ttf" />
+    <EmbeddedResource Include="Fonts\GaladaRegular.ttf" />
   </ItemGroup>
 
   <ItemGroup>
